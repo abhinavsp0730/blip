@@ -10,21 +10,22 @@ to mock a test, Django Blip will not overwrite that behavior, ensuring backward 
 1) pip install `django-blip` to install in your virtual env.
 2) Add `TEST_RUNNER = "blip.custom_test_runner.BlipTestRunner"` in your Django's `settings.py`.  
 
-Optionally
-3) Add,
-    ```
-      BLIP_CONFIG = { 
-                    blip_status_code: int = 500 # Default 200
-                    blip_response: str = '{"key": "value"}' # Default {}
-                    blip_verbose = False # Default True
-                    blip_silently_bypass = False # Default True, If set to False it will raise exception if any
-                                                 # external API call is encountered within the test
-                    }
-   ``` 
+Optionally  
+3) Add,  
+```python
+    BLIP_CONFIG = {
+                    "blip_status_code": 500,  # Default 200
+                    "blip_response": '{"key": "value"}',  # Default {}
+                    "blip_verbose": False,  # Default True
+                    "blip_silently_bypass": False  # Default True, If set to False, it will raise an exception if any
+                                                   # external API call is encountered within the test
+                }
+```
    in your `settings.py`.
     
-# Basic Usage  
-```
+# Basic Usage
+
+```python
 import httpretty 
 from django.test import TestCase
 class TestBlipWorks(TestCase):
@@ -44,9 +45,6 @@ class TestBlipWorks(TestCase):
         res = requests.get(url)
         self.assertEqual(res.json(), {})  # blip returns response = {}
         self.assertEqual(res.status_code, 200)  # blip returns default 200 status code
-``` 
+```
 
-You can see above in `test_blip_works_and_mock_any_api_call` it returns mocked `status_code=200` and `respons={}`.  
-As you can see in  `test_blip_do_not_alter_the_behaviour_of_existing_mocked_apis_with_httpretty` how Blip is designed  
-in a way that it gives flexibility to decorate `@httpretty.activate` your testcase and blip will not override the   
-behaviour. 
+In the provided code examples, test_blip_works_and_mock_any_api_call shows that Blip returns a mocked status_code of 200 and an empty response {}. Additionally, in test_blip_do_not_alter_the_behaviour_of_existing_mocked_apis_with_httpretty, you can see how Blip is designed to work seamlessly with @httpretty.activate decorators, ensuring that it doesn't override existing behaviors.
