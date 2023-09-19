@@ -7,7 +7,7 @@ to mock a test, Django Blip will not overwrite that behavior, ensuring backward 
 
 
 # How to configure: 
-1) pip install `django-blip` to install in your virtual env.
+1) `pip install django-blip` to install in your virtual env.
 2) Add `TEST_RUNNER = "blip.custom_test_runner.BlipTestRunner"` in your Django's `settings.py`.  
 
 Optionally  
@@ -47,4 +47,4 @@ class TestBlipWorks(TestCase):
         self.assertEqual(res.status_code, 200)  # blip returns default 200 status code
 ```
 
-In the provided code examples, test_blip_works_and_mock_any_api_call shows that Blip returns a mocked status_code of 200 and an empty response {}. Additionally, in test_blip_do_not_alter_the_behaviour_of_existing_mocked_apis_with_httpretty, you can see how Blip is designed to work seamlessly with @httpretty.activate decorators, ensuring that it doesn't override existing behaviors.
+In the provided code examples, `test_blip_works_and_mock_any_api_call` shows that Blip returns a mocked status_code of 200 and an empty response {}. Additionally, in `test_blip_do_not_alter_the_behaviour_of_existing_mocked_apis_with_httpretty`, you can see how Blip is designed to work seamlessly with @httpretty.activate decorators, ensuring that it doesn't override existing behaviors.
