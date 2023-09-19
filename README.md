@@ -21,7 +21,27 @@ Optionally
                                                    # external API call is encountered within the test
                 }
 ```
-   in your `settings.py`.
+   in your `settings.py`. 
+
+Also if you wanna register any additional url you can do it like this,
+```python  
+    from blip.service import BlipService 
+    import httpretty
+    import json
+    BLIP_CONFIG = {
+    "blip_additional_mocked_uris": [
+        BlipService.BlipAdditionalMockedUris(
+            request_uri="https://xyz.com",
+            request_method=httpretty.POST,
+            response_status_code=200,
+            response=json.dumps({"key": "value"}),
+        )
+    ]
+}
+``` 
+Blip will give first priority to urls passed via `blip_additional_mocked_uris`.
+
+
     
 # Basic Usage
 
