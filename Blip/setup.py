@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="django-blip",
-    version="0.0.1",
+    version="0.0.7",
     description="Python package to intercept all external api calls during django test.",
     long_description="",
     author="Abhinav Prakash",
