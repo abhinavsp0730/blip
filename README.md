@@ -13,13 +13,13 @@ to mock a test, Django Blip will not overwrite that behavior, ensuring backward 
 Optionally  
 3) Add,  
 ```python
-    BLIP_CONFIG = {
-                    "blip_status_code": 500,  # Default 200
-                    "blip_response": '{"key": "value"}',  # Default {}
-                    "blip_verbose": False,  # Default True
-                    "blip_silently_bypass": False  # Default True, If set to False, it will raise an exception if any
-                                                   # external API call is encountered within the test
-                }
+BLIP_CONFIG = {
+                "blip_status_code": 500,  # Default 200
+                "blip_response": '{"key": "value"}',  # Default {}
+                "blip_verbose": False,  # Default True
+                "blip_silently_bypass": False  # Default True, If set to False, it will raise an exception if any
+                                               # external API call is encountered within the test
+            }
 ```
    in your `settings.py`. 
 
@@ -29,8 +29,8 @@ Also if you wanna register any additional url you can do it like this,
     import httpretty
     import json
     BLIP_CONFIG = {
-    "blip_additional_mocked_uris": [
-        BlipService.BlipAdditionalMockedUris(
+    "blip_additional_global_mocks": [
+        BlipService.BlipAdditionalGlobalMocks(
             request_uri="https://xyz.com",
             request_method=httpretty.POST,
             response_status_code=200,
@@ -39,7 +39,7 @@ Also if you wanna register any additional url you can do it like this,
     ]
 }
 ``` 
-Blip will give first priority to urls passed via `blip_additional_mocked_uris`.
+Blip will give first priority to urls passed via `blip_additional_global_mocks`.
 
 
     
@@ -47,7 +47,9 @@ Blip will give first priority to urls passed via `blip_additional_mocked_uris`.
 
 ```python
 import httpretty 
-from django.test import TestCase
+from django.test import TestCase 
+import requests  
+import json
 class TestBlipWorks(TestCase):
     @httpretty.activate(verbose=True, allow_net_connect=False)
     def test_blip_do_not_alter_the_behaviour_of_existing_mocked_apis_with_httpretty(self):

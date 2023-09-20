@@ -1,12 +1,11 @@
 from functools import partial
 from unittest import TextTestResult, TextTestRunner
-
 import httpretty
 from django.test.runner import DiscoverRunner, RemoteTestResult
-
 from .service import BlipService
 
-blip_obj = BlipService()
+# Initialize BlipService using configuration from Django settings if not set then from default configs
+blip_obj = BlipService().initialize_using_blip_config()
 
 
 class BlipTestRunnerRemoteTestResult(RemoteTestResult):
@@ -47,9 +46,12 @@ class BlipTextTestRunner(TextTestRunner):
 class BlipTestRunner(DiscoverRunner):
     def __init__(self, **kwargs):
         super(BlipTestRunner, self).__init__(**kwargs)
-        self.parallel_test_suite.runner_class = partial(  # Add this
+
+        # Configure the parallel test suite runner with BlipTestRunnerRemoteTestResult
+        self.parallel_test_suite.runner_class = partial(
             self.parallel_test_suite.runner_class,
             resultclass=BlipTestRunnerRemoteTestResult,
         )
 
+    # Use BlipTextTestRunner as the test runner for this custom runner
     test_runner = BlipTextTestRunner
