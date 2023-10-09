@@ -1,10 +1,13 @@
 import setuptools
+import os
+
+pwd = os.path.join(os.getcwd(),"README.md")
 
 setuptools.setup(
     name="django-blip",
     version="0.0.10",
     description="Python package to intercept all external api call during django test.",
-    long_description=open("README.md").read(),
+    long_description=open(pwd).read(),
     long_description_content_type="text/markdown",
     author="Abhinav Prakash",
     author_email="abhinavsp0730@gmail.com",
